@@ -1,11 +1,11 @@
 import React from "react";
 
-function Navbar() {
+const Navbar = () => {
     return (
-        <div>
-            <h1>I am Purnima Jeee</h1>
-        </div>
+        <>
+            <h1> My name is Purnima</h1>
+        </>
     );
-}
+};
 
 export default Navbar;

@@ -1,12 +1,11 @@
-import React from 'react'
+import React from "react";
 
 function Navbar() {
-  return (
-    <div>
-      <h1>Iam purnima</h1>
-    </div>
-  )
+    return (
+        <div>
+            <h1>I am Purnima Jeee</h1>
+        </div>
+    );
 }
 
-export default Navbar
-
+export default Navbar;

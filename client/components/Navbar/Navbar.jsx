@@ -43,9 +43,25 @@ const Navbar = () => {
             </div>
 
             {/* Auth Buttons */}
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-3 relative">
                 <button className="px-4 py-1 border border-black rounded-full text-md font-medium hover:bg-gray-100 transition-colors">Login</button>
-                <button className="px-4 py-1 bg-yellow-300 rounded-full text-md font-medium hover:bg-yellow-400 shadow transition-colors">Register</button>
+                <div className="relative group">
+                    <button className="px-4 py-1 bg-yellow-300 rounded-full text-md font-medium hover:bg-yellow-400 shadow transition-colors flex items-center space-x-1">
+                        Register
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    {/* Register Dropdown */}
+                    <div className="absolute right-0 hidden group-hover:block bg-white shadow-lg mt-2 rounded-md min-w-[180px] transition-all duration-200 z-50">
+                        <option href="/register/recruiter" className="block px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800">
+                            Register as a Recruiter
+                        </option>
+                        <option href="/register/candidate" className="block px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800">
+                            Register as a Candidate
+                        </option>
+                    </div>
+                </div>
             </div>
 
             {/* Mobile Menu Button */}

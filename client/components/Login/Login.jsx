@@ -36,19 +36,20 @@ const Login = () => {
                     ></div>
                     <div className="w-full p-8 lg:w-1/2">
                         <div className="text-2xl font-semibold text-gray-700 text-center">
-                            <span className="font-bold text-3xl tracking-tight text-gray-800">Jobhire</span>
+                            <span className=" font-bold text-3xl tracking-tight text-red-600">Jobhire</span>
                         </div>
-                        <p className="text-xl text-gray-600 text-center">Welcome back to Jobhire!</p>
+                        <p className="text-xl text-black text-center font-bold">Welcome back to Jobhire!</p>
 
                         {!showForgot ? (
                             <form onSubmit={handleLogin}>
                                 <div className="mt-4">
-                                    <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
+                                    <label className="block text-gray-700 text-sm font-bold mb-2 mt-10">Email Address</label>
                                     <input
-                                        className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                                        className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
                                         type="email"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
+                                        placeholder="Enter your Email"
                                         required
                                     />
                                 </div>
@@ -57,10 +58,11 @@ const Login = () => {
                                         <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
                                     </div>
                                     <input
-                                        className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none"
+                                        className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
                                         type="password"
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
+                                        placeholder="Enter your Password"
                                         required
                                     />
                                 </div>
@@ -69,9 +71,16 @@ const Login = () => {
                                         Forgot Password?
                                     </button>
                                 </div>
+
+                                <div className="mt-8">
+                                    <button type="submit" className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">
+                                        Login
+                                    </button>
+                                </div>
+
                                 <div className="mt-10 flex items-center justify-between">
                                     <span className="border-b w-1/5 lg:w-1/4"></span>
-                                    <span className="text-xs text-center text-gray-500 uppercase">or login with email</span>
+                                    <span className="text-xs text-center text-gray-500 uppercase">or login with</span>
                                     <span className="border-b w-1/5 lg:w-1/4"></span>
                                 </div>
                                 <button onClick={handleGoogleLogin} className="flex items-center justify-center mt-4 bg-white rounded-lg shadow-md hover:bg-gray-100 w-full">
@@ -97,11 +106,6 @@ const Login = () => {
                                     </div>
                                     <span className="px-4 py-3 w-5/6 text-center text-gray-600 font-bold">Sign in with Google</span>
                                 </button>
-                                <div className="mt-8">
-                                    <button type="submit" className="bg-gray-700 text-white font-bold py-2 px-4 w-full rounded hover:bg-gray-600">
-                                        Login
-                                    </button>
-                                </div>
                             </form>
                         ) : (
                             <form onSubmit={handleForgotPassword}>
@@ -129,12 +133,20 @@ const Login = () => {
                                 </div>
                             </form>
                         )}
-                        <div className="mt-4 flex items-center justify-between">
-                            <span className="border-b w-1/5 md:w-1/4"></span>
-                            <a href="#" className="text-xs text-gray-500 uppercase">
-                                or sign up
-                            </a>
-                            <span className="border-b w-1/5 md:w-1/4"></span>
+
+                        <div className="mt-4 flex items-center justify-center space-x-2">
+                            <span className="border-b w-full"></span>
+                            <span className="text-sm text-gray-500 whitespace-nowrap">
+                                Don't have an account? Register as &nbsp;
+                                <a href="/register/recruiter" className="text-red-600 hover:underline">
+                                    Recruiter
+                                </a>
+                                &nbsp;or&nbsp;
+                                <a href="/register/candidate" className="text-red-600 hover:underline">
+                                    Candidate
+                                </a>
+                            </span>
+                            <span className="border-b w-full"></span>
                         </div>
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import React from "react";
 
-const Navbar = () => {
+const Navbar = ({ onLoginClick }) => {
     return (
         <nav className=" w-[85%] mx-auto sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-sm bg-white border-b border-gray-100">
             {/* Logo */}
@@ -44,7 +44,9 @@ const Navbar = () => {
 
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3 relative">
-                <button className="px-4 py-1 border border-black rounded-full text-md font-medium hover:bg-gray-100 transition-colors">Login</button>
+                <button className="px-4 py-1 border border-black rounded-full text-md font-medium hover:bg-gray-100 transition-colors" onClick={onLoginClick}>
+                    Login
+                </button>
                 <div className="relative group">
                     <button className="px-4 py-1 bg-yellow-300 rounded-full text-md font-medium hover:bg-yellow-400 shadow transition-colors flex items-center space-x-1">
                         Register

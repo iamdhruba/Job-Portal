@@ -1,19 +1,12 @@
 import bcrypt from "bcrypt";
 
 export const hashPassword = async (req, res, next) => {
-    const { password, confirmpassword } = req.body;
+    const { password } = req.body;
 
-    if (!password || !confirmpassword) {
+    if (!password || password.length < 8) {
         return res.status(400).json({
             success: false,
-            message: "Password and confirm password are required",
-        });
-    }
-
-    if (password !== confirmpassword) {
-        return res.status(400).json({
-            success: false,
-            message: "Passwords do not match",
+            message: "Password must be at least 8 characters long",
         });
     }
 
@@ -22,7 +15,6 @@ export const hashPassword = async (req, res, next) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         req.body.password = hashedPassword;
-        req.body.confirmpassword = hashedPassword;
 
         next();
     } catch (error) {

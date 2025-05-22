@@ -5,8 +5,15 @@ import { User } from "../model/user.model.js";
 
 export const registerUser = async (req, res) => {
     try {
-        // console.log("Request body", req.body);
-        const newUser = await userViewModel.registerUser(req.body);
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({
+                status: false,
+                message: "Email and password are required",
+            });
+        }
+
+        const newUser = await userViewModel.registerUser({ email, password });
 
         const token = generateToken({
             id: newUser._id,
@@ -21,59 +28,57 @@ export const registerUser = async (req, res) => {
         });
     } catch (error) {
         console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Internal server error",
+        });
     }
 };
 
 export const loginUser = async (req, res) => {
-    try {
-        const { username, email, password } = req.body;
+    const { email, password } = req.body;
 
-        if ((!username && !email) || !password) {
-            return res.status(400).json({
-                success: false,
-                message: "Email and password are required",
-            });
-        }
-
-        const user = await User.findOne({
-            $or: [{ username: username }, { email: email }],
+    if (!email || !password) {
+        return res.status(400).json({
+            status: false,
+            message: "Email and password are required",
         });
+    }
+
+    try {
+        const user = await User.findOne({ email });
 
         if (!user) {
             return res.status(401).json({
-                success: false,
-                message: "Enter valid password",
+                status: false,
+                message: "Invalid email or password",
             });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
+
         if (!isPasswordValid) {
             return res.status(401).json({
-                success: false,
-                message: "Enter valid password",
+                status: false,
+                message: "Invalid email or password",
             });
         }
 
         const token = generateToken({
             id: user._id,
             email: user.email,
-            username: user.username,
         });
 
         res.status(200).json({
-            success: true,
+            status: true,
             message: "Login successful",
-            data: {
-                id: user._id,
-                username: user.username,
-                email: user.email,
-            },
+            data: user,
             token,
         });
     } catch (error) {
-        console.error("Login error:", error);
+        console.log(error);
         res.status(500).json({
-            success: false,
+            status: false,
             message: "Internal server error",
         });
     }

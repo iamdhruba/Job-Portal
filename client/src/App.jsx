@@ -17,7 +17,7 @@ const App = () => {
             <UserType />
             <ApplyNow />
             {/* <Login /> */}
-            <Routing />
+            {/* <Routing /> */}
             {showLogin && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
                     <div className="relative bg-none shadow-lg w-full max-w-4xl p-0">

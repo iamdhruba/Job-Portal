@@ -17,7 +17,7 @@ const UserType = () => {
     ];
     return (
         <>
-            <div className="flex flex-col items-center justify-center w-full h-full bg-zinc-100">
+            <div className="flex flex-col items-center justify-center w-full h-full">
                 <div className="flex items-center justify-center w-[70%] mt-10 gap-10">
                     {data.map((elem, index) => (
                         <div key={index} className="flex bg-zinc-200 rounded-md shadow-lg">
@@ -27,7 +27,7 @@ const UserType = () => {
                                 <button className="px-3 py-2 bg-red-500 rounded-md text-white text-sm cursor-pointer self-start">{elem.button}</button>
                             </div>
                             <div className="flex w-full h-full bg-zinc-300 ">
-                                <img src={elem.image} alt={elem.name} className=" w-full h-full object-cover" />
+                                <img src={elem.image} alt={elem.name} className=" w-full h-full object-contain" />
                             </div>
                         </div>
                     ))}

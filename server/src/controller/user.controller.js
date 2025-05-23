@@ -5,7 +5,7 @@ import { User } from "../model/user.model.js";
 
 export const registerUser = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { name, email, password } = req.body;
         if (!email || !password) {
             return res.status(400).json({
                 status: false,
@@ -13,7 +13,7 @@ export const registerUser = async (req, res) => {
             });
         }
 
-        const newUser = await userViewModel.registerUser({ email, password });
+        const newUser = await userViewModel.registerUser({ name, email, password });
 
         const token = generateToken({
             id: newUser._id,
@@ -71,7 +71,7 @@ export const loginUser = async (req, res) => {
 
         res.status(200).json({
             status: true,
-            message: "Login successful",
+            message: "Login successfull",
             data: user,
             token,
         });

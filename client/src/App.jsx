@@ -6,6 +6,7 @@ import Routing from "../routes/Routing";
 import UserType from "../components/UserType/UserType";
 import ApplyNow from "../components/ApplyNow/ApplyNow";
 import Login from "../components/Login/Login";
+import Register from "../components/Register/Register";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(false);
@@ -28,6 +29,7 @@ const App = () => {
                     </div>
                 </div>
             )}
+            <Register />
         </>
     );
 };

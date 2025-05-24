@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 
 const userSchema = new mongoose.Schema({
+    // For candidate: name is full name, for recruiter: name is company name
     name: {
         type: String,
         required: true,
-        unique: false,
     },
-
     email: {
         type: String,
         required: true,
@@ -15,7 +14,12 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: true,
-        unique: false,
+    },
+    // Role distinguishes between candidate and recruiter
+    role: {
+        type: String,
+        enum: ["candidate", "recruiter"],
+        required: true,
     },
 });
 

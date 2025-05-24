@@ -1,10 +1,11 @@
 import express from "express";
-import { registerUser, loginUser } from "../controller/user.controller.js";
-import { hashPassword } from "../middlewares/passwordHash.js";
+import { registerCandidate, registerRecruiter, loginCandidate, loginRecruiter } from "../controller/user.controller.js";
 
 const router = express.Router();
 
-router.post("/register", hashPassword, registerUser);
-router.post("/login", loginUser);
+router.post("/register/candidate", registerCandidate); // { name, email, password }
+router.post("/register/recruiter", registerRecruiter); // { company, email, password }
+router.post("/login/candidate", loginCandidate); // { email, password }
+router.post("/login/recruiter", loginRecruiter); // { email, password }
 
 export default router;

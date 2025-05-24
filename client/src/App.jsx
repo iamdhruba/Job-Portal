@@ -1,35 +1,50 @@
 import React, { useState } from "react";
-
 import Navbar from "../components/Navbar/Navbar";
 import LandingPage from "../components/LandingPage/LandingPage";
-import Routing from "../routes/Routing";
 import UserType from "../components/UserType/UserType";
-import ApplyNow from "../components/ApplyNow/ApplyNow";
-import Login from "../components/Login/Login";
-import Register from "../components/Register/Register";
+import RegisterCandidate from "../components/Register/RegisterCandidate";
+import RegisterRecruiter from "../components/Register/RegisterRecruiter";
+import LoginCandidate from "../components/Login/LoginCandidate";
+import LoginRecruiter from "../components/Login/LoginRecruiter";
 
 const App = () => {
-    const [showLogin, setShowLogin] = useState(false);
+    const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
+    const [showRegister, setShowRegister] = useState(null); // "candidate" or "recruiter" or null
 
     return (
         <>
-            <Navbar onLoginClick={() => setShowLogin(true)} />
+            <Navbar
+                onLoginCandidateClick={() => setShowLogin("candidate")}
+                onLoginRecruiterClick={() => setShowLogin("recruiter")}
+                onCandidateClick={() => setShowRegister("candidate")}
+                onRecruiterClick={() => setShowRegister("recruiter")}
+            />
             <LandingPage />
             <UserType />
-            <ApplyNow />
-            {/* <Login /> */}
-            {/* <Routing /> */}
+
             {showLogin && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
-                    <div className="relative bg-none shadow-lg w-full max-w-4xl p-0">
-                        <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl" onClick={() => setShowLogin(false)}>
+                    <div className="relative bg-white shadow-lg w-full max-w-4xl p-0 rounded">
+                        <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl" onClick={() => setShowLogin(null)}>
                             &times;
                         </button>
-                        <Login />
+                        {showLogin === "candidate" && <LoginCandidate />}
+                        {showLogin === "recruiter" && <LoginRecruiter />}
                     </div>
                 </div>
             )}
-            <Register />
+
+            {showRegister && (
+                <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
+                    <div className="relative bg-white shadow-lg w-full max-w-4xl p-0 rounded">
+                        <button className="absolute top-2 right-2 text-gray-500 hover:text-gray-700 text-2xl" onClick={() => setShowRegister(null)}>
+                            &times;
+                        </button>
+                        {showRegister === "candidate" && <RegisterCandidate />}
+                        {showRegister === "recruiter" && <RegisterRecruiter />}
+                    </div>
+                </div>
+            )}
         </>
     );
 };

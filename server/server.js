@@ -16,9 +16,9 @@ app.use(bodyParser.json());
 
 app.use(
     cors({
-        origin: "http://localhost:3000", // Replace with '*' to allow all origins
+        origin: ["http://localhost:5000", "http://localhost:5173"], // Allow both ports for dev
         methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-        credentials: true, // If you need cookies/auth headers
+        credentials: true,
     })
 );
 
@@ -30,7 +30,7 @@ app.get("/", (req, res) => {
 
 connectDB();
 
-app.use("/user", router);
+app.use("/api", router);
 
 const PORT = process.env.PORT || 5000;
 

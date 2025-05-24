@@ -1,8 +1,30 @@
-import React from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-const Navbar = ({ onLoginClick }) => {
+const Navbar = ({ onLoginCandidateClick, onLoginRecruiterClick, onCandidateClick, onRecruiterClick }) => {
+    const [registerOpen, setRegisterOpen] = useState(false);
+    const [loginOpen, setLoginOpen] = useState(false);
+    const registerRef = useRef(null);
+    const loginRef = useRef(null);
+
+    // Close dropdowns when clicking outside
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (registerRef.current && !registerRef.current.contains(event.target)) {
+                setRegisterOpen(false);
+            }
+            if (loginRef.current && !loginRef.current.contains(event.target)) {
+                setLoginOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, []);
+
     return (
-        <nav className=" w-[85%] mx-auto sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-sm bg-white border-b border-gray-100">
+        <nav className="w-[85%] mx-auto sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-sm bg-white border-b border-gray-100">
             {/* Logo */}
             <div className="flex items-center space-x-2">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-b from-yellow-300 to-green-500 shadow-md" />
@@ -11,58 +33,96 @@ const Navbar = ({ onLoginClick }) => {
 
             {/* Navigation Links */}
             <div className="hidden md:flex space-x-6 text-md text-gray-700 font-medium">
-                <a href="#" className="hover:text-yellow-500 transition-colors">
+                <Link to="/" className="hover:text-yellow-500 transition-colors">
                     Home
-                </a>
-                <a href="/Internship" className="hover:text-yellow-500 transition-colors">
+                </Link>
+                <Link to="/Internship" className="hover:text-yellow-500 transition-colors">
                     Internship
-                </a>
-                <a href="/jobs" className="hover:text-yellow-500 transition-colors">
+                </Link>
+                <Link to="/jobs" className="hover:text-yellow-500 transition-colors">
                     Jobs
-                </a>
-                <a href="/about" className="hover:text-yellow-500 transition-colors">
+                </Link>
+                <Link to="/about" className="hover:text-yellow-500 transition-colors">
                     About us
-                </a>
-                <div className="relative group">
-                    <button className="hover:text-yellow-500 flex items-center space-x-1 transition-colors">
-                        <span>Event</span>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                        </svg>
-                    </button>
-                    {/* Dropdown */}
-                    <div className="absolute left-0 hidden group-hover:block bg-white shadow-lg mt-2 rounded-md min-w-[120px] transition-all duration-200">
-                        <a href="#" className="block px-4 py-2 text-sm hover:bg-yellow-50 transition-colors">
-                            Page 1
-                        </a>
-                        <a href="#" className="block px-4 py-2 text-sm hover:bg-yellow-50 transition-colors">
-                            Page 2
-                        </a>
-                    </div>
-                </div>
+                </Link>
             </div>
 
             {/* Auth Buttons */}
             <div className="flex items-center space-x-3 relative">
-                <button className="px-4 py-1 border border-black rounded-full text-md font-medium hover:bg-gray-100 transition-colors" onClick={onLoginClick}>
-                    Login
-                </button>
-                <div className="relative group">
-                    <button className="px-4 py-1 bg-yellow-300 rounded-full text-md font-medium hover:bg-yellow-400 shadow transition-colors flex items-center space-x-1">
+                {/* Login Dropdown */}
+                <div className="relative" ref={loginRef}>
+                    <button
+                        className="px-4 py-1 bg-yellow-300 rounded-full text-md font-medium hover:bg-yellow-400 shadow transition-colors flex items-center space-x-1"
+                        onClick={() => setLoginOpen((prev) => !prev)}
+                        type="button"
+                    >
+                        Login
+                        <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </button>
+                    {loginOpen && (
+                        <div className="absolute right-0 bg-white shadow-lg mt-2 rounded-md min-w-[180px] transition-all duration-200 z-50">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setLoginOpen(false);
+                                    if (onLoginRecruiterClick) onLoginRecruiterClick();
+                                }}
+                                className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                            >
+                                Login as Recruiter
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setLoginOpen(false);
+                                    if (onLoginCandidateClick) onLoginCandidateClick();
+                                }}
+                                className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                            >
+                                Login as Candidate
+                            </button>
+                        </div>
+                    )}
+                </div>
+
+                {/* Register Dropdown */}
+                <div className="relative" ref={registerRef}>
+                    <button
+                        className="px-4 py-1 bg-yellow-300 rounded-full text-md font-medium hover:bg-yellow-400 shadow transition-colors flex items-center space-x-1"
+                        onClick={() => setRegisterOpen((prev) => !prev)}
+                        type="button"
+                    >
                         Register
                         <svg className="w-4 h-4 ml-1" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </button>
-                    {/* Register Dropdown */}
-                    <div className="absolute right-0 hidden group-hover:block bg-white shadow-lg mt-2 rounded-md min-w-[180px] transition-all duration-200 z-50">
-                        <option href="/register/recruiter" className="block px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800">
-                            Register as a Recruiter
-                        </option>
-                        <option href="/register/candidate" className="block px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800">
-                            Register as a Candidate
-                        </option>
-                    </div>
+                    {registerOpen && (
+                        <div className="absolute right-0 bg-white shadow-lg mt-2 rounded-md min-w-[180px] transition-all duration-200 z-50">
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setRegisterOpen(false);
+                                    if (onRecruiterClick) onRecruiterClick();
+                                }}
+                                className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                            >
+                                Register as a Recruiter
+                            </button>
+                            <button
+                                type="button"
+                                onClick={() => {
+                                    setRegisterOpen(false);
+                                    if (onCandidateClick) onCandidateClick();
+                                }}
+                                className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                            >
+                                Register as a Candidate
+                            </button>
+                        </div>
+                    )}
                 </div>
             </div>
 

@@ -18,7 +18,7 @@ const RegisterRecruiter = () => {
             return;
         }
         try {
-            const response = await fetch("http://localhost:5000/api/register/recruiter", {
+            const response = await fetch("http://localhost:5000/api/users/register/recruiter", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ company, email, password }),

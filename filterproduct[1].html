@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>filter product</title>
+</head>
+<body>
+   <div class="container">
+
+        <input type="number" name="" id="minPrice" placeholder="minPrice" value="0">
+        <input type="number" name="" id="maxPrice" placeholder="maxPrice" value="10000" >
+        <button>FilterProduct</button>
+        <div class="product-list">
+
+        </div>
+    
+   </div>
+
+   <script>
+    const fetchDisplayProduct=async()=>{
+        let minPrice=parseFloat(document.getElementById('minPrice').value)
+        let maxPrice=parseFloat(document.getElementById('maxPrice').value)
+
+        try{
+            const res = await fetch(`https://fakestoreapi.in/api/products`)
+            const data= await res.json()
+            if(!data || !data.products || data.products.length ==0){
+                document.querySelector('.container').innerHTML=`<p>Error loading the products</p>`
+            }
+            let tableContent=`
+            <table border='2'>
+                <thead>
+                    <tr>
+                        <th>id</th>
+                        <th>Title</th>
+                        <th>Price</th>
+                        <th>Category</th>
+                        <tr>
+
+                    </thead>
+                    <tbody>
+
+            
+            `
+            //filter products
+            let filterProducts=data.products.filter(item=>{
+                return item.price >= minPrice && item.price <= maxPrice
+            })
+                //if there are no filter  products found
+            if(filterProducts.length==0){
+                document.querySelector('.container').innerHTML=`<p>No any products in this range</p>`
+
+            }
+            //display the products using the iteration method
+            filterProducts.forEach((item)=>{
+                tableContent+=`
+                <tr>
+                    <td>${item.id}</td>
+                    <td>${item.title}</td>
+                    <td>${item.price}</td>
+                    <td>${item.model}</td>
+                    <td>${item.category}</td>
+                    </tr>
+
+                `
+                //pailako c ontente override nahos vanra +=
+            })//end of the iteration
+            tableContent+=`
+            </tbody>
+            </table>
+            `
+         document.querySelector('.product-list').innerHTML=`${tableContent}`
+        }
+        
+        catch(error){
+            console.log(error)
+        }
+    }
+
+
+    
+    //add event on button
+    document.querySelector('button').addEventListener('click',fetchDisplayProduct)
+    fetchDisplayProduct()
+   </script>
+    
+</body>
+</html>
+<!-- fakestoreapi.in -->

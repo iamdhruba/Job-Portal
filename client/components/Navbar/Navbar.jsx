@@ -45,6 +45,9 @@ const Navbar = ({ onLoginCandidateClick, onLoginRecruiterClick, onCandidateClick
                 <Link to="/about" className="hover:text-yellow-500 transition-colors">
                     About us
                 </Link>
+                <Link to="/post-job" className="hover:text-yellow-500 transition-colors">
+                    Post a Job
+                </Link>
             </div>
 
             {/* Auth Buttons */}

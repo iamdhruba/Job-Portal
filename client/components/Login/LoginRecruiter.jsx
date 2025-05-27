@@ -10,7 +10,7 @@ const LoginRecruiter = () => {
         e.preventDefault();
         setError("");
         try {
-            const response = await fetch("http://localhost:5000/api/login/recruiter", {
+            const response = await fetch("http://localhost:5000/api/users/login/recruiter", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password }),

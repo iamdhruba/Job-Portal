@@ -18,7 +18,7 @@ const RegisterCandidate = () => {
             return;
         }
         try {
-            const response = await fetch("http://localhost:5000/api/register/candidate", {
+            const response = await fetch("http://localhost:5000/api/users/register/candidate", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, password }),

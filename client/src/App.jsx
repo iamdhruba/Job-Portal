@@ -6,6 +6,8 @@ import RegisterCandidate from "../components/Register/RegisterCandidate";
 import RegisterRecruiter from "../components/Register/RegisterRecruiter";
 import LoginCandidate from "../components/Login/LoginCandidate";
 import LoginRecruiter from "../components/Login/LoginRecruiter";
+import Jobs from "../components/Jobs/Jobs";
+import JobForm from "../components/JobPostingForm/CreateJobForm";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
@@ -21,6 +23,9 @@ const App = () => {
             />
             <LandingPage />
             <UserType />
+            <JobForm />
+
+            <Jobs />
 
             {showLogin && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">

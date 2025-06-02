@@ -1,10 +1,12 @@
 import express from "express";
 import dotenv from "dotenv";
+import cors from "cors";
+import bodyParser from "body-parser";
 import { connectDB } from "./database/index.js";
 import userRouter from "./src/routes/user.route.js";
 import jobRouter from "./src/routes/job.route.js";
-import cors from "cors";
-import bodyParser from "body-parser";
+import applyRouter from "./src/routes/apply.route.js";
+import appStatusRouter from "./src/routes/status.route.js";
 
 const app = express();
 
@@ -31,8 +33,10 @@ app.get("/", (req, res) => {
 
 connectDB();
 
-app.use("/api/users", userRouter); // Changed to be more specific
+app.use("/api/users", userRouter);
 app.use("/api/jobs", jobRouter);
+app.use("/api/apply", applyRouter);
+app.use("/api/status", appStatusRouter);
 
 const PORT = process.env.PORT || 5000;
 

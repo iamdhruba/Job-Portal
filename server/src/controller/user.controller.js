@@ -1,4 +1,4 @@
-import * as userViewModel from "../view/user.view.js";
+import * as userViewModel from "../view/user.viewmodel.js";
 import { generateToken } from "../../utils/jwtUtils.js";
 import bcrypt from "bcrypt";
 import { User } from "../model/user.model.js";

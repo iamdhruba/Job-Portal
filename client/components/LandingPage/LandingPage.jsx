@@ -21,10 +21,10 @@ const LandingPage = () => {
                 <div className="text-center">
                     <h1 className="text-3xl md:text-5xl font-bold mb-4">
                         Join the most popular and trusted&nbsp;<br></br>
-                        <span className="bg-gradient-to-r from-yellow-300 to-green-400 text-transparent bg-clip-text">internship and companies</span>
+                        <span className="text-red-700  bg-clip-text">internship and companies</span>
                     </h1>
                     <p className="text-lg text-gray-600">
-                        We've helped over <span className="font-semibold text-yellow-500">2,500 freshers</span> to get into the most popular internships and jobs
+                        We've helped over <span className="font-semibold text-red-700">2,500 freshers</span> to get into the most popular internships and jobs
                     </p>
                 </div>
             </div>
@@ -32,7 +32,7 @@ const LandingPage = () => {
             <form className="flex flex-col md:flex-row items-center justify-center gap-4" onSubmit={handleSearch}>
                 <div className="relative">
                     <select
-                        className="bg-gradient-to-r from-yellow-300 to-green-400 text-black font-semibold rounded-full p-3 pr-10 focus:outline-none shadow transition-all duration-200 appearance-none"
+                        className="bg-red-700 text-white font-semibold rounded-full p-3 pr-10 focus:outline-none shadow transition-all duration-200 appearance-none"
                         value={selected}
                         onChange={(e) => setSelected(e.target.value)}
                     >
@@ -43,7 +43,7 @@ const LandingPage = () => {
                         ))}
                     </select>
                     {/* Dropdown Icon */}
-                    <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-700">
+                    <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-white">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
@@ -56,7 +56,7 @@ const LandingPage = () => {
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                 />
-                <button type="submit" className="bg-yellow-400 hover:bg-yellow-500 text-white font-semibold px-5 py-2 rounded-full shadow transition-colors">
+                <button type="submit" className="text-white bg-red-700 font-semibold px-5 py-2 rounded-full shadow transition-colors">
                     Search
                 </button>
             </form>

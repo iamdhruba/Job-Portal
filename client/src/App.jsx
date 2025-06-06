@@ -8,6 +8,8 @@ import LoginCandidate from "../components/Login/LoginCandidate";
 import LoginRecruiter from "../components/Login/LoginRecruiter";
 import Jobs from "../components/Jobs/Jobs";
 import JobForm from "../components/JobPostingForm/CreateJobForm";
+import Copyright from "../components/Copyright/Copyright";
+import Footer from "../components/Footer/Footer";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
@@ -50,6 +52,9 @@ const App = () => {
                     </div>
                 </div>
             )}
+
+            <Footer />
+            <Copyright />
         </>
     );
 };

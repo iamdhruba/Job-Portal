@@ -27,8 +27,7 @@ const Navbar = ({ onLoginCandidateClick, onLoginRecruiterClick, onCandidateClick
         <nav className="w-[85%] mx-auto sticky top-0 z-50 flex items-center justify-between px-6 py-4 shadow-sm bg-white border-b border-gray-100">
             {/* Logo */}
             <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 rounded-full bg-gradient-to-b from-yellow-300 to-green-500 shadow-md" />
-                <span className="font-bold text-3xl tracking-tight text-gray-800">Jobhire</span>
+                <img src="../../assests/clickjob.png" alt="Logo" className="w-20 h-auto mt-3 self-center " />
             </div>
 
             {/* Navigation Links */}

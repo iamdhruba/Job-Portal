@@ -10,6 +10,11 @@ import Jobs from "../components/Jobs/Jobs";
 import JobForm from "../components/JobPostingForm/CreateJobForm";
 import Copyright from "../components/Copyright/Copyright";
 import Footer from "../components/Footer/Footer";
+import Card from "../components/Card/Card";
+import CompanyStats from "../components/CompanyStats/CompanyStats";
+import HowItWorks from "../components/HowWeWorks/HowWeWorks";
+import FAQs from "../components/FAQs/FAQs";
+import Testimonials from "../components/Testimonials/Testimonials";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
@@ -25,9 +30,9 @@ const App = () => {
             />
             <LandingPage />
             <UserType />
-            <JobForm />
+            {/* <JobForm /> */}
 
-            <Jobs />
+            {/* <Jobs /> */}
 
             {showLogin && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
@@ -53,6 +58,11 @@ const App = () => {
                 </div>
             )}
 
+            <HowItWorks />
+            <FAQs />
+            <CompanyStats />
+            <Card />
+            <Testimonials />
             <Footer />
             <Copyright />
         </>

@@ -18,8 +18,13 @@ import Testimonials from "../components/Testimonials/Testimonials";
 import JobSeekerDashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
 import Dashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
 
-import WhoWeAre from "../components/WhoWeAre/WhoWeAre";
 import StatsSection from "../components/AboutUs/StatsSection";
+import MissionSection from "../components/MissionSection/MissionSection";
+import WhyChooseClickJob from "../components/WhyChooseClickJob/WhyChooseClickJob";
+import Teammembers from "../components/TeammemberSection/Teammembers";
+import DepartmentContacts from "../components/DepartmentContacts/DepartmentContacts";
+import WhoWeAre from "../components/WhoWeAre/WhoWeAre";
+import WhyChooseUs from "../components/WhyChooseClickJob/WhyChooseClickJob";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
@@ -70,6 +75,10 @@ const App = () => {
             <Card />
             <WhoWeAre />
             <StatsSection />
+            <MissionSection />
+            <WhyChooseClickJob />
+            <Teammembers />
+            <DepartmentContacts />
             <Testimonials />
             <Footer />
             <Copyright />

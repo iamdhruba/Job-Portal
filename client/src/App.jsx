@@ -12,14 +12,14 @@ import Copyright from "../components/Copyright/Copyright";
 import Footer from "../components/Footer/Footer";
 import Card from "../components/Card/Card";
 import CompanyStats from "../components/CompanyStats/CompanyStats";
-import HowItWorks from "../components/HowWeWorks/HowWeWorks";
+import HowWeWork from "../components/HowWeWork/HowWeWork";
 import FAQs from "../components/FAQs/FAQs";
 import Testimonials from "../components/Testimonials/Testimonials";
 import JobSeekerDashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
 import Dashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
 
-import Whoweare from "../components/AboutUs/Whoweare";
 import StatsSection from "../components/AboutUs/StatsSection";
+import WhoWeAre from "../components/WhoWeAre/WhoWeAre";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
@@ -37,7 +37,7 @@ const App = () => {
             <UserType />
             {/* <JobForm /> */}
 
-            <Jobs />
+            {/* <Jobs /> */}
 
             {showLogin && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
@@ -64,11 +64,11 @@ const App = () => {
             )}
             <JobSeekerDashboard />
             <Dashboard />
-            <HowItWorks />
+            <HowWeWork />
             <FAQs />
             <CompanyStats />
             <Card />
-            <Whoweare />
+            <WhoWeAre />
             <StatsSection />
             <Testimonials />
             <Footer />

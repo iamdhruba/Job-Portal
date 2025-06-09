@@ -9,7 +9,7 @@ const Card = () => {
                     Create A Better <br /> Future For Yourself
                 </h2>
                 <p className="mb-10 text-gray-300">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Id nesciunt delectus nemo quo aperiam enim cupiditate fugit quae esse architecto!</p>
-                <button className="w-fit px-6 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md transition">Search Job</button>
+                <button className="w-fit px-6 py-2 bg-red-600 hover:bg-red-700 text-white rounded-md transition">Search Job</button>
             </div>
 
             {/* Right Section with Image */}

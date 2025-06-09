@@ -42,13 +42,13 @@ const FAQSection = () => {
             <p className="text-center text-gray-500 mb-8">At eu lobortis pretium tincidunt amet lacus ut aenean aliquet.</p>
             <div className="border rounded-xl divide-y">
                 {faqs.map((faq, index) => (
-                    <div key={faq.id} className={`p-5 ${activeId === faq.id ? "bg-emerald-50" : "bg-white"}`}>
+                    <div key={faq.id} className={`p-5 ${activeId === faq.id ? "bg-red-50" : "bg-white"}`}>
                         <div className="flex justify-between items-start cursor-pointer" onClick={() => toggle(faq.id)}>
                             <div className="flex gap-3">
-                                <span className="font-bold text-emerald-600">{String(faq.id).padStart(2, "0")}</span>
+                                <span className="font-bold text-red-600">{String(faq.id).padStart(2, "0")}</span>
                                 <p className="font-medium">{faq.question}</p>
                             </div>
-                            <div>{activeId === faq.id ? <X className="text-emerald-600" size={20} /> : <Plus className="text-emerald-600" size={20} />}</div>
+                            <div>{activeId === faq.id ? <X className="text-red-600" size={20} /> : <Plus className="text-red-600" size={20} />}</div>
                         </div>
                         {activeId === faq.id && faq.answer && <p className="mt-4 text-sm text-gray-600">{faq.answer}</p>}
                     </div>

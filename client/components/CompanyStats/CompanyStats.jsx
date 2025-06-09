@@ -25,7 +25,7 @@ function CompanyStats() {
             <div className="grid gap-8 md:grid-cols-3">
                 {stats.map((stat, index) => (
                     <div key={index} className="p-6 bg-white rounded-lg shadow-md text-gray-800 hover:shadow-lg transition duration-300">
-                        <h2 className="text-4xl font-extrabold text-emerald-600 mb-2">{stat.number}</h2>
+                        <h2 className="text-4xl font-extrabold text-red-600 mb-2">{stat.number}</h2>
                         <p className="text-lg font-semibold mb-2">{stat.title}</p>
                         <p className="text-sm text-gray-600">{stat.description}</p>
                     </div>

@@ -16,6 +16,9 @@ import HowItWorks from "../components/HowWeWorks/HowWeWorks";
 import FAQs from "../components/FAQs/FAQs";
 import Testimonials from "../components/Testimonials/Testimonials";
 
+import Whoweare  from "../components/AboutUs/Whoweare";
+import StatsSection from "../components/AboutUs/StatsSection";
+
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
     const [showRegister, setShowRegister] = useState(null); // "candidate" or "recruiter" or null
@@ -62,6 +65,8 @@ const App = () => {
             <FAQs />
             <CompanyStats />
             <Card />
+            <Whoweare/>
+            <StatsSection/>
             <Testimonials />
             <Footer />
             <Copyright />

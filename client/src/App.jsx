@@ -15,6 +15,8 @@ import CompanyStats from "../components/CompanyStats/CompanyStats";
 import HowItWorks from "../components/HowWeWorks/HowWeWorks";
 import FAQs from "../components/FAQs/FAQs";
 import Testimonials from "../components/Testimonials/Testimonials";
+import JobSeekerDashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
+import Dashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null
@@ -32,7 +34,7 @@ const App = () => {
             <UserType />
             {/* <JobForm /> */}
 
-            {/* <Jobs /> */}
+            <Jobs />
 
             {showLogin && (
                 <div className="fixed inset-0 flex items-center justify-center z-50 backdrop-blur-sm">
@@ -57,7 +59,8 @@ const App = () => {
                     </div>
                 </div>
             )}
-
+            <JobSeekerDashboard />
+            <Dashboard />
             <HowItWorks />
             <FAQs />
             <CompanyStats />

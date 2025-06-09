@@ -18,8 +18,8 @@ import Testimonials from "../components/Testimonials/Testimonials";
 import JobSeekerDashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
 import Dashboard from "../components/JobSeekerDashboard/JobSeekerDashboard";
 
-import StatsSection from "../components/AboutUs/StatsSection";
 import WhoWeAre from "../components/WhoWeAre/WhoWeAre";
+import StatsSection from "../components/AboutUs/StatsSection";
 
 const App = () => {
     const [showLogin, setShowLogin] = useState(null); // "candidate" or "recruiter" or null

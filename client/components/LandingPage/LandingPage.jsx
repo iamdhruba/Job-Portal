@@ -1,4 +1,8 @@
 import React, { useState } from "react";
+import CompanyStats from "../CompanyStats/CompanyStats";
+import HowWeWork from "../HowWeWork/HowWeWork";
+import FAQs from "../FAQs/FAQs";
+import Testimonials from "../Testimonials/Testimonials";
 
 const options = [
     { value: "internships", label: "Internships" },
@@ -60,6 +64,10 @@ const LandingPage = () => {
                     Search
                 </button>
             </form>
+            <CompanyStats />
+            <HowWeWork />
+            <FAQs />
+            <Testimonials />
         </>
     );
 };

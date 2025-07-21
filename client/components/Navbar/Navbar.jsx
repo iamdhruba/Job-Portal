@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 
-const Navbar = ({ onLoginCandidateClick, onLoginRecruiterClick, onCandidateClick, onRecruiterClick }) => {
+const Navbar = () => {
     const [registerOpen, setRegisterOpen] = useState(false);
     const [loginOpen, setLoginOpen] = useState(false);
     const registerRef = useRef(null);
@@ -35,7 +35,7 @@ const Navbar = ({ onLoginCandidateClick, onLoginRecruiterClick, onCandidateClick
                 <Link to="/" className="hover:text-yellow-500 transition-colors">
                     Home
                 </Link>
-                <Link to="/Internship" className="hover:text-yellow-500 transition-colors">
+                <Link to="/internship" className="hover:text-yellow-500 transition-colors">
                     Internship
                 </Link>
                 <Link to="/jobs" className="hover:text-yellow-500 transition-colors">
@@ -65,26 +65,20 @@ const Navbar = ({ onLoginCandidateClick, onLoginRecruiterClick, onCandidateClick
                     </button>
                     {loginOpen && (
                         <div className="absolute right-0 bg-white shadow-lg mt-2 rounded-md min-w-[180px] transition-all duration-200 z-50">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setLoginOpen(false);
-                                    if (onLoginRecruiterClick) onLoginRecruiterClick();
-                                }}
+                            <Link
+                                to="/login/recruiter"
                                 className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                                onClick={() => setLoginOpen(false)}
                             >
                                 Login as Recruiter
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setLoginOpen(false);
-                                    if (onLoginCandidateClick) onLoginCandidateClick();
-                                }}
+                            </Link>
+                            <Link
+                                to="/login/candidate"
                                 className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                                onClick={() => setLoginOpen(false)}
                             >
                                 Login as Candidate
-                            </button>
+                            </Link>
                         </div>
                     )}
                 </div>
@@ -103,26 +97,20 @@ const Navbar = ({ onLoginCandidateClick, onLoginRecruiterClick, onCandidateClick
                     </button>
                     {registerOpen && (
                         <div className="absolute right-0 bg-white shadow-lg mt-2 rounded-md min-w-[180px] transition-all duration-200 z-50">
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setRegisterOpen(false);
-                                    if (onRecruiterClick) onRecruiterClick();
-                                }}
+                            <Link
+                                to="/register/recruiter"
                                 className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                                onClick={() => setRegisterOpen(false)}
                             >
                                 Register as a Recruiter
-                            </button>
-                            <button
-                                type="button"
-                                onClick={() => {
-                                    setRegisterOpen(false);
-                                    if (onCandidateClick) onCandidateClick();
-                                }}
+                            </Link>
+                            <Link
+                                to="/register/candidate"
                                 className="block w-full text-left px-4 py-2 text-sm hover:bg-yellow-50 transition-colors text-gray-800"
+                                onClick={() => setRegisterOpen(false)}
                             >
                                 Register as a Candidate
-                            </button>
+                            </Link>
                         </div>
                     )}
                 </div>

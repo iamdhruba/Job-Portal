@@ -1,9 +1,14 @@
 import { createApplication, getAllApplications, getApplicationById, updateApplication, deleteApplication } from "../view/apply.viewmodel.js";
+import { getFromCache, setInCache, deleteFromCache } from "../../utils/cache.js";
 
 // Create a new application
 export const createApply = async (req, res) => {
     try {
         const application = await createApplication(req.body);
+        
+        // Clear the applications cache when a new application is created
+        await deleteFromCache('all_applications');
+        
         res.status(201).json(application);
     } catch (error) {
         console.error("Error creating application:", error);
@@ -14,7 +19,17 @@ export const createApply = async (req, res) => {
 // Get all applications
 export const getAllApplies = async (req, res) => {
     try {
+        // Check if applications are cached
+        const cachedApplications = await getFromCache('all_applications');
+        if (cachedApplications) {
+            return res.status(200).json(cachedApplications);
+        }
+        
         const applications = await getAllApplications();
+        
+        // Cache applications for 5 minutes
+        await setInCache('all_applications', applications, 300);
+        
         res.status(200).json(applications);
     } catch (error) {
         console.error("Error fetching applications:", error);
@@ -43,6 +58,10 @@ export const updateApply = async (req, res) => {
         if (!updatedApplication) {
             return res.status(404).json({ message: "Application not found" });
         }
+        
+        // Clear the applications cache when an application is updated
+        await deleteFromCache('all_applications');
+        
         res.status(200).json(updatedApplication);
     } catch (error) {
         console.error("Error updating application:", error);
@@ -57,6 +76,10 @@ export const deleteApply = async (req, res) => {
         if (!deletedApplication) {
             return res.status(404).json({ message: "Application not found" });
         }
+        
+        // Clear the applications cache when an application is deleted
+        await deleteFromCache('all_applications');
+        
         res.status(200).json({ message: "Application deleted successfully" });
     } catch (error) {
         console.error("Error deleting application:", error);

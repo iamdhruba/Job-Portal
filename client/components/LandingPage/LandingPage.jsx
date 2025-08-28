@@ -21,22 +21,21 @@ const LandingPage = () => {
 
     return (
         <>
-            <div className="flex flex-col items-center justify-center min-h-[40vh]">
-                <div className="text-center">
-                    <h1 className="text-3xl md:text-5xl font-bold mb-4">
-                        Join the most popular and trusted&nbsp;<br></br>
-                        <span className="text-red-700  bg-clip-text">internship and companies</span>
-                    </h1>
-                    <p className="text-lg text-gray-600">
-                        We've helped over <span className="font-semibold text-red-700">2,500 freshers</span> to get into the most popular internships and jobs
-                    </p>
-                </div>
-            </div>
+            <section className="container mx-auto container-px flex flex-col items-center justify-center min-h-[45vh] text-center">
+                <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
+                    Join the most popular and trusted
+                    <br />
+                    <span className="text-primary">internship and companies</span>
+                </h1>
+                <p className="text-base md:text-lg text-muted-foreground max-w-2xl">
+                    We've helped over <span className="font-semibold text-primary">2,500 freshers</span> to get into the most popular internships and jobs
+                </p>
+            </section>
             {/* Search with dropdown */}
-            <form className="flex flex-col md:flex-row items-center justify-center gap-4" onSubmit={handleSearch}>
-                <div className="relative">
+            <form className="container mx-auto container-px -mt-4 mb-8 flex flex-col md:flex-row items-stretch md:items-center justify-center gap-3" onSubmit={handleSearch}>
+                <div className="relative w-full md:w-auto">
                     <select
-                        className="bg-red-700 text-white font-semibold rounded-full p-3 pr-10 focus:outline-none shadow transition-all duration-200 appearance-none"
+                        className="bg-primary text-primary-foreground font-semibold rounded-full pl-4 pr-10 py-3 focus:outline-none shadow-soft transition-all duration-200 appearance-none w-full md:w-auto"
                         value={selected}
                         onChange={(e) => setSelected(e.target.value)}
                     >
@@ -47,20 +46,22 @@ const LandingPage = () => {
                         ))}
                     </select>
                     {/* Dropdown Icon */}
-                    <span className="pointer-events-none absolute right-4 top-1/2 transform -translate-y-1/2 text-white">
+                    <span className="pointer-events-none absolute right-4 top-1/2 -translate-y-1/2 text-primary-foreground">
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
                         </svg>
                     </span>
                 </div>
-                <input
-                    type="text"
-                    className="border border-gray-300 rounded-full px-80 py-3 focus:outline-none "
-                    placeholder={`Search ${selected}...`}
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                />
-                <button type="submit" className="text-white bg-red-700 font-semibold px-5 py-2 rounded-full shadow transition-colors">
+                <div className="flex-1 w-full max-w-3xl">
+                    <input
+                        type="text"
+                        className="w-full border border-input rounded-full px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        placeholder={`Search ${selected}...`}
+                        value={query}
+                        onChange={(e) => setQuery(e.target.value)}
+                    />
+                </div>
+                <button type="submit" className="text-primary-foreground bg-primary font-semibold px-6 py-3 rounded-full shadow-soft hover:bg-primary/90 transition-colors">
                     Search
                 </button>
             </form>

@@ -1,24 +1,58 @@
 import React from "react";
 import Navbar from "../components/Navbar/Navbar";
 import Footer from "../components/Footer/Footer";
-import Copyright from "../components/Copyright/Copyright";
 import Routing from "../routes/Routing";
-import AdminDashboard from "../components/Dashboard/Admin/AdminDashboard";
-import CandidateDashboard from "../components/Dashboard/Candidate/CandidateDashboard";
-import RecruiterDashboard from "../components/Dashboard/Recruiter/RecruiterDashboard";
+import { useAuth } from "./context/AuthContext";
+import { useNavigate, useLocation } from "react-router-dom";
+
+// Protected Route Component
+const ProtectedRoute = ({ children }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // If user is not authenticated, redirect to login
+  if (!user) {
+    navigate("/login/candidate", { state: { from: location }, replace: true });
+    return null;
+  }
+
+  return children;
+};
+
+// Role-based Route Component
+const RoleBasedRoute = ({ allowedRoles, children }) => {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  // If user is not authenticated, redirect to login
+  if (!user) {
+    navigate("/login/candidate", { state: { from: location }, replace: true });
+    return null;
+  }
+
+  // If user role is not allowed, redirect to appropriate dashboard
+  if (!allowedRoles.includes(user.role)) {
+    const redirectPath =
+      user.role === "admin" ? "/dashboard/admin" :
+      user.role === "recruiter" ? "/dashboard/recruiter" :
+      "/dashboard/candidate";
+    navigate(redirectPath, { replace: true });
+    return null;
+  }
+
+  return children;
+};
 
 const App = () => {
     return (
         <>
-            <AdminDashboard />
-            <CandidateDashboard />
-            <RecruiterDashboard />
             <Navbar />
             <main>
                 <Routing />
             </main>
             <Footer />
-            <Copyright />
         </>
     );
 };

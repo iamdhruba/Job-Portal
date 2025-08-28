@@ -1,31 +1,43 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../src/context/AuthContext";
+import { validateEmail, validatePassword } from "../../src/utils/validation";
 
 const LoginCandidate = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
+    const { loginCandidate, loading, error, clearError } = useAuth();
+    const navigate = useNavigate();
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        const newErrors = {};
+        
+        const emailError = validateEmail(email);
+        if (emailError) newErrors.email = emailError;
+        
+        const passwordError = validatePassword(password);
+        if (passwordError) newErrors.password = passwordError;
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        setError("");
+        clearError();
+        
+        if (!validateForm()) {
+            return;
+        }
+        
         try {
-            const response = await fetch("http://localhost:5000/api/users/login/candidate", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ email, password }),
-            });
-            const data = await response.json();
-            if (response.ok) {
-                alert("Login successful!");
-                // You can redirect or set user context here, e.g.:
-                // localStorage.setItem("token", data.token);
-                // window.location.href = "/dashboard";
-            } else {
-                setError(data.message || "Login failed. Please try again.");
-            }
+            await loginCandidate({ email, password });
+            // Redirect to candidate dashboard on successful login
+            navigate("/dashboard/candidate");
         } catch (err) {
-            setError("Network error. Please try again.");
+            // Error is handled by the auth context
+            console.error("Login error:", err);
         }
     };
 
@@ -48,28 +60,36 @@ const LoginCandidate = () => {
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
                             <input
-                                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
+                                className={`bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm ${
+                                    errors.email ? "border-red-500" : ""
+                                }`}
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your Email"
-                                required
                             />
+                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                         </div>
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
                             <input
-                                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
+                                className={`bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm ${
+                                    errors.password ? "border-red-500" : ""
+                                }`}
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter your Password"
-                                required
                             />
+                            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
                         </div>
                         <div className="mt-8">
-                            <button type="submit" className="bg-red-600 text-white font-bold py-2 px-4 w-full rounded hover:bg-red-500">
-                                Login
+                            <button
+                                type="submit"
+                                className="bg-red-600 text-white font-bold py-2 px-4 w-full rounded hover:bg-red-500"
+                                disabled={loading}
+                            >
+                                {loading ? "Logging in..." : "Login"}
                             </button>
                         </div>
                     </form>

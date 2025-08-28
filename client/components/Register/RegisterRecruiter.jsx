@@ -1,40 +1,62 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../../src/context/AuthContext";
+import { validateCompanyName, validateEmail, validatePassword, validateConfirmPassword } from "../../src/utils/validation";
 
 const RegisterRecruiter = () => {
     const [company, setCompany] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
-    const [error, setError] = useState("");
+    const { registerRecruiter, loading, error, clearError } = useAuth();
+    const navigate = useNavigate();
     const [success, setSuccess] = useState("");
+    const [errors, setErrors] = useState({});
+
+    const validateForm = () => {
+        const newErrors = {};
+        
+        const companyError = validateCompanyName(company);
+        if (companyError) newErrors.company = companyError;
+        
+        const emailError = validateEmail(email);
+        if (emailError) newErrors.email = emailError;
+        
+        const passwordError = validatePassword(password);
+        if (passwordError) newErrors.password = passwordError;
+        
+        const confirmPasswordError = validateConfirmPassword(password, confirmPassword);
+        if (confirmPasswordError) newErrors.confirmPassword = confirmPasswordError;
+        
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
 
     const handleRegister = async (e) => {
         e.preventDefault();
-        setError("");
+        clearError();
         setSuccess("");
-        if (password !== confirmPassword) {
-            setError("Passwords do not match!");
+        
+        if (!validateForm()) {
             return;
         }
+        
         try {
-            const response = await fetch("http://localhost:5000/api/users/register/recruiter", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ company, email, password }),
-            });
-            const data = await response.json();
-            if (response.ok) {
-                setSuccess("Registration successful! You can now log in.");
-                setCompany("");
-                setEmail("");
-                setPassword("");
-                setConfirmPassword("");
-            } else {
-                setError(data.message || "Registration failed. Please try again.");
-            }
+            await registerRecruiter({ company, email, password });
+            setSuccess("Registration successful! You can now log in.");
+            // Clear form
+            setCompany("");
+            setEmail("");
+            setPassword("");
+            setConfirmPassword("");
+            setErrors({});
+            // Optionally redirect to login page after a delay
+            setTimeout(() => {
+                navigate("/login/recruiter");
+            }, 2000);
         } catch (err) {
-            setError("Network error. Please try again.");
+            // Error is handled by the auth context
+            console.error("Registration error:", err);
         }
     };
 
@@ -58,50 +80,62 @@ const RegisterRecruiter = () => {
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Company Name</label>
                             <input
-                                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
+                                className={`bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm ${
+                                    errors.company ? "border-red-500" : ""
+                                }`}
                                 type="text"
                                 value={company}
                                 onChange={(e) => setCompany(e.target.value)}
                                 placeholder="Enter your company name"
-                                required
                             />
+                            {errors.company && <p className="text-red-500 text-xs mt-1">{errors.company}</p>}
                         </div>
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Email Address</label>
                             <input
-                                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
+                                className={`bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm ${
+                                    errors.email ? "border-red-500" : ""
+                                }`}
                                 type="email"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 placeholder="Enter your Email"
-                                required
                             />
+                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                         </div>
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Password</label>
                             <input
-                                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
+                                className={`bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm ${
+                                    errors.password ? "border-red-500" : ""
+                                }`}
                                 type="password"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 placeholder="Enter your Password"
-                                required
                             />
+                            {errors.password && <p className="text-red-500 text-xs mt-1">{errors.password}</p>}
                         </div>
                         <div className="mt-4">
                             <label className="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
                             <input
-                                className="bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm"
+                                className={`bg-gray-200 text-gray-700 focus:outline-none focus:shadow-outline border border-gray-300 rounded py-2 px-4 block w-full appearance-none placeholder:text-sm ${
+                                    errors.confirmPassword ? "border-red-500" : ""
+                                }`}
                                 type="password"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 placeholder="Confirm your Password"
-                                required
                             />
+                            {errors.confirmPassword && <p className="text-red-500 text-xs mt-1">{errors.confirmPassword}</p>}
                         </div>
                         <div className="mt-8">
-                            <button type="submit" className="bg-red-600 text-white font-bold py-2 px-4 w-full rounded hover:bg-red-500">
-                                Register
+                            <button
+                                type="submit"
+                                className="bg-red-600 text-white font-bold py-2 px-4 w-full rounded hover:bg-red-500"
+                                disabled={loading}
+                            >
+                                {loading ? "Registering..." : "Register"}
                             </button>
                         </div>
                     </form>

@@ -11,11 +11,42 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
+// Simple in-memory cache to avoid hitting rate limits with repeated calls
+const cache = {
+  jobs: { data: null, ts: 0, ttl: 30_000 }, // 30s TTL
+};
+
+function isFresh(entry) {
+  return entry.data && (Date.now() - entry.ts) < entry.ttl;
+}
+
 export const jobService = {
-  listAll: async () => (await api.get('/jobs')).data,
-  create: async (payload) => (await api.post('/jobs', payload)).data,
-  update: async (id, payload) => (await api.put(`/jobs/${id}`, payload)).data,
-  remove: async (id) => (await api.delete(`/jobs/${id}`)).data,
+  // forceRefresh allows bypassing the cache when needed
+  listAll: async (forceRefresh = false) => {
+    if (!forceRefresh && isFresh(cache.jobs)) return cache.jobs.data;
+    const res = await api.get('/jobs');
+    cache.jobs = { data: res.data, ts: Date.now(), ttl: cache.jobs.ttl };
+    return res.data;
+  },
+  create: async (payload) => {
+    const res = await api.post('/jobs', payload);
+    // Invalidate cache on create
+    cache.jobs = { data: null, ts: 0, ttl: cache.jobs.ttl };
+    return res.data;
+  },
+  update: async (id, payload) => {
+    const res = await api.put(`/jobs/${id}`, payload);
+    // Invalidate cache on update
+    cache.jobs = { data: null, ts: 0, ttl: cache.jobs.ttl };
+    return res.data;
+  },
+  remove: async (id) => {
+    const res = await api.delete(`/jobs/${id}`);
+    // Invalidate cache on delete
+    cache.jobs = { data: null, ts: 0, ttl: cache.jobs.ttl };
+    return res.data;
+  },
+  clearCache: () => { cache.jobs = { data: null, ts: 0, ttl: cache.jobs.ttl }; },
 };
 
 export default jobService;

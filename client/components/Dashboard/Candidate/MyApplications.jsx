@@ -5,12 +5,21 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 
 const STATUS_STYLES = {
+  applied: 'bg-blue-100 text-blue-800',
   pending: 'bg-yellow-100 text-yellow-800',
   reviewed: 'bg-blue-100 text-blue-800',
   interview: 'bg-indigo-100 text-indigo-800',
   accepted: 'bg-green-100 text-green-800',
   rejected: 'bg-red-100 text-red-800',
 };
+
+// Map backend Apply.status -> UI status
+const apiToUiStatus = (s) => ({
+  applied: 'pending',
+  interviewing: 'reviewed',
+  offered: 'accepted',
+  rejected: 'rejected',
+}[String(s || '').toLowerCase()] || 'pending');
 
 export default function MyApplications() {
   const { user } = useAuth();
@@ -35,17 +44,25 @@ export default function MyApplications() {
         ]);
         const allApps = await appsRes.json();
         const allJobs = await jobsRes.json();
-        const byId = new Map((allJobs || []).map(j => [j._id || j.id, j]));
-        const mine = (allApps || []).filter(a => a.candidateId === user?.id || a.user === user?.id || a.userId === user?.id);
+        const byId = new Map((allJobs || []).map(j => [
+          (j._id || j.id)?.toString?.() || j._id || j.id,
+          j
+        ]));
+        const getId = (v) => (typeof v === 'string' ? v : v?._id || v?.id || v);
+        const mine = (allApps || []).filter(a => {
+          const uid = getId(a.user);
+          return uid === user?.id || a.candidateId === user?.id || a.userId === user?.id;
+        });
         const joined = mine.map(a => {
-          const job = byId.get(a.jobId || a.job);
+          const jobId = getId(a.job) || a.jobId || a.job;
+          const job = byId.get(jobId?.toString?.()) || (typeof a.job === 'object' ? a.job : undefined);
           return {
             id: a._id || a.id,
-            jobId: job?._id || job?.id || a.jobId || a.job,
+            jobId: getId(job) || jobId,
             jobTitle: job?.title || a.jobTitle || '—',
-            company: job?.company || a.company || '—',
+            company: job?.company || a.company || job?.postedBy?.companyName || '—',
             appliedDate: a.appliedDate || a.createdAt || new Date().toISOString(),
-            status: (a.status || 'pending').toLowerCase(),
+            status: apiToUiStatus(a.status),
           };
         });
         setApps(joined);
@@ -59,7 +76,7 @@ export default function MyApplications() {
     load();
   }, [user?.id]);
 
-  const statuses = ['all', 'pending', 'reviewed', 'interview', 'accepted', 'rejected'];
+  const statuses = ['all', 'pending', 'reviewed', 'accepted', 'rejected'];
 
   const filtered = apps.filter(a => {
     const q = query.trim().toLowerCase();

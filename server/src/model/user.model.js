@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
     // Role distinguishes between candidate and recruiter
     role: {
         type: String,
-        enum: ["candidate", "recruiter"],
+        enum: ["candidate", "recruiter", "admin"],
         required: true,
     },
     // Optional profile fields

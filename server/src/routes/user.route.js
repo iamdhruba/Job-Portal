@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
-import { registerCandidate, registerRecruiter, loginCandidate, loginRecruiter, refreshToken, getAllUsers } from "../controller/user.controller.js";
+import { registerCandidate, registerRecruiter, loginCandidate, loginRecruiter, loginAdmin, refreshToken, getAllUsers } from "../controller/user.controller.js";
 import { authRateLimiterMiddleware } from "../middlewares/rateLimiter.js";
 import { verifyToken } from "../../utils/jwtUtils.js";
 import { User } from "../model/user.model.js";
@@ -13,6 +13,7 @@ router.post("/register/candidate", authRateLimiterMiddleware, registerCandidate)
 router.post("/register/recruiter", authRateLimiterMiddleware, registerRecruiter); // { company, email, password }
 router.post("/login/candidate", authRateLimiterMiddleware, loginCandidate); // { email, password }
 router.post("/login/recruiter", authRateLimiterMiddleware, loginRecruiter); // { email, password }
+router.post("/login/admin", authRateLimiterMiddleware, loginAdmin); // { email, password }
 router.post("/refresh", refreshToken); // { refreshToken }
 router.get("/", getAllUsers); // Get all users
 

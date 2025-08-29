@@ -66,6 +66,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  // Login admin
+  const loginAdmin = async (credentials) => {
+    try {
+      setLoading(true);
+      setError(null);
+      const response = await authService.loginAdmin(credentials);
+      setUser(response.data);
+      return response;
+    } catch (err) {
+      setError(err.message);
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
+
   // Login recruiter
   const loginRecruiter = async (credentials) => {
     try {
@@ -110,6 +126,7 @@ export const AuthProvider = ({ children }) => {
     registerRecruiter,
     loginCandidate,
     loginRecruiter,
+    loginAdmin,
     logout,
     clearError,
     updateUser,

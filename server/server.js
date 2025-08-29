@@ -7,6 +7,8 @@ import userRouter from "./src/routes/user.route.js";
 import jobRouter from "./src/routes/job.route.js";
 import applyRouter from "./src/routes/apply.route.js";
 import appStatusRouter from "./src/routes/status.route.js";
+import adminRouter from "./src/routes/admin.route.js";
+import { ensureDefaultAdmin } from "./src/controller/user.controller.js";
 import { errorHandler, notFound } from "./src/middlewares/errorHandler.js";
 import { rateLimiter } from "./src/middlewares/rateLimiter.js";
 import logger, { requestLogger, errorLogger } from './utils/logger.js'; // ✅ Correct import
@@ -43,10 +45,12 @@ app.get("/", (req, res) => {
 });
 
 connectDB();
+ensureDefaultAdmin();
 app.use("/api/users", userRouter);
 app.use("/api/jobs", jobRouter);
 app.use("/api/apply", applyRouter);
 app.use("/api/status", appStatusRouter);
+app.use("/api/admin", adminRouter);
 
 // Swagger UI
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(specs));

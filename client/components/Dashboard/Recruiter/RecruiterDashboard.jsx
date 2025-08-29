@@ -25,7 +25,12 @@ const RecruiterDashboard = () => {
       setLoading(true);
       try {
         const all = await jobService.listAll();
-        const mine = all.filter(j => j.postedBy && (j.postedBy === user?.id || j.postedBy?._id === user?.id));
+        const uid = user?._id || user?.id;
+        const mine = (all || []).filter(j => {
+          const pb = j.postedBy;
+          const pbId = typeof pb === 'string' ? pb : (pb?._id || pb?.id);
+          return pbId === uid;
+        });
         setJobs(mine);
       } finally { setLoading(false); }
     };

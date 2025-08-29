@@ -12,12 +12,13 @@ export const DataProvider = ({ children }) => {
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const base = import.meta.env.VITE_API_BASE_URL;
 
   // Fetch users from API
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/users');
+      const response = await fetch(`${base}/api/users`);
       const users = await response.json();
       setData(prev => ({ ...prev, users }));
     } catch (err) {
@@ -32,7 +33,7 @@ export const DataProvider = ({ children }) => {
   const fetchJobs = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/jobs');
+      const response = await fetch(`${base}/api/jobs`);
       const jobs = await response.json();
       setData(prev => ({ ...prev, jobs }));
     } catch (err) {
@@ -47,7 +48,7 @@ export const DataProvider = ({ children }) => {
   const fetchApplications = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/apply/getallapplies');
+      const response = await fetch(`${base}/api/apply/getallapplies`);
       const applications = await response.json();
       setData(prev => ({ ...prev, applications }));
     } catch (err) {
@@ -167,10 +168,12 @@ export const DataProvider = ({ children }) => {
 
   // User API functions
   const registerUser = async (userData) => {
-    const response = await fetch('/api/users/register/candidate', {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/users/register/candidate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify(userData),
     });
@@ -183,10 +186,12 @@ export const DataProvider = ({ children }) => {
   };
 
   const updateUser = async (id, userData) => {
-    const response = await fetch(`/api/users/${id}`, {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/users/${id},`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify(userData),
     });
@@ -199,8 +204,12 @@ export const DataProvider = ({ children }) => {
   };
 
   const deleteUser = async (id) => {
-    const response = await fetch(`/api/users/${id}`, {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/users/${id}`, {
       method: 'DELETE',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
     });
     
     if (!response.ok) {
@@ -212,10 +221,12 @@ export const DataProvider = ({ children }) => {
 
   // Job API functions
   const createJob = async (jobData) => {
-    const response = await fetch('/api/jobs', {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/jobs`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify(jobData),
     });
@@ -228,10 +239,12 @@ export const DataProvider = ({ children }) => {
   };
 
   const updateJob = async (id, jobData) => {
-    const response = await fetch(`/api/jobs/${id}`, {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/jobs/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify(jobData),
     });
@@ -244,8 +257,12 @@ export const DataProvider = ({ children }) => {
   };
 
   const deleteJob = async (id) => {
-    const response = await fetch(`/api/jobs/${id}`, {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/jobs/${id}`, {
       method: 'DELETE',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
     });
     
     if (!response.ok) {
@@ -257,10 +274,12 @@ export const DataProvider = ({ children }) => {
 
   // Application API functions
   const createApplication = async (applicationData) => {
-    const response = await fetch('/api/apply', {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/apply`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify(applicationData),
     });
@@ -273,10 +292,12 @@ export const DataProvider = ({ children }) => {
   };
 
   const updateApplication = async (id, applicationData) => {
-    const response = await fetch(`/api/apply/${id}`, {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/apply/${id}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
       },
       body: JSON.stringify(applicationData),
     });
@@ -289,8 +310,12 @@ export const DataProvider = ({ children }) => {
   };
 
   const deleteApplication = async (id) => {
-    const response = await fetch(`/api/apply/${id}`, {
+    const token = localStorage.getItem('token');
+    const response = await fetch(`${base}/api/apply/${id}`, {
       method: 'DELETE',
+      headers: {
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
     });
     
     if (!response.ok) {

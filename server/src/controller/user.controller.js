@@ -5,6 +5,7 @@ import { User } from "../model/user.model.js";
 import validator from "validator";
 import logger from "../../utils/logger.js";
 import { setInCache, deleteFromCache } from "../../utils/cache.js";
+import jwt from "jsonwebtoken";
 
 // Validate email format
 const validateEmail = (email) => {
@@ -430,6 +431,64 @@ export const loginRecruiter = async (req, res) => {
     }
 };
 
+// Login as admin
+export const loginAdmin = async (req, res) => {
+    const { email, password } = req.body;
+
+    // Validate required fields
+    if (!email || !password) {
+        return res.status(400).json({
+            status: false,
+            message: "Email and password are required",
+        });
+    }
+
+    // Validate email format
+    if (!validator.isEmail(email)) {
+        return res.status(400).json({
+            status: false,
+            message: "Please provide a valid email address",
+        });
+    }
+
+    try {
+        const user = await User.findOne({ email, role: "admin" });
+
+        if (!user) {
+            return res.status(401).json({
+                status: false,
+                message: "Invalid email or password",
+            });
+        }
+
+        const isPasswordValid = await bcrypt.compare(password, user.password);
+
+        if (!isPasswordValid) {
+            return res.status(401).json({
+                status: false,
+                message: "Invalid email or password",
+            });
+        }
+
+        const token = generateToken({ id: user._id, email: user.email, role: user.role });
+        const refreshToken = generateRefreshToken({ id: user._id, email: user.email, role: user.role });
+
+        res.status(200).json({
+            status: true,
+            message: "Login successful",
+            data: user,
+            token,
+            refreshToken,
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).json({
+            status: false,
+            message: "Internal server error",
+        });
+    }
+};
+
 // Refresh token
 export const refreshToken = async (req, res) => {
     const { refreshToken } = req.body;
@@ -470,6 +529,23 @@ export const refreshToken = async (req, res) => {
             status: false,
             message: "Invalid refresh token",
         });
+    }
+};
+
+// Seed default admin from env (used during server startup)
+export const ensureDefaultAdmin = async () => {
+    try {
+        const email = process.env.ADMIN_EMAIL;
+        const password = process.env.ADMIN_PASSWORD;
+        const name = process.env.ADMIN_NAME || "Administrator";
+        if (!email || !password) return;
+        const existing = await User.findOne({ email, role: "admin" });
+        if (existing) return;
+        const hashed = await bcrypt.hash(password, 10);
+        await new User({ name, email, password: hashed, role: "admin" }).save();
+        logger.info("Default admin created", { email });
+    } catch (e) {
+        logger.error("Failed to create default admin", { error: e.message });
     }
 };
 

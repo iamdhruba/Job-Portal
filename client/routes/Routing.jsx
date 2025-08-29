@@ -10,6 +10,7 @@ import RegisterCandidate from "../components/Register/RegisterCandidate";
 import RegisterRecruiter from "../components/Register/RegisterRecruiter";
 import LoginCandidate from "../components/Login/LoginCandidate";
 import LoginRecruiter from "../components/Login/LoginRecruiter";
+import LoginAdmin from "../components/Login/LoginAdmin";
 import CreateJob from "../components/Job/CreateJob";
 import AdminDashboard from "../components/Dashboard/Admin/AdminDashboard";
 import RecruiterDashboard from "../components/Dashboard/Recruiter/RecruiterDashboard";
@@ -23,18 +24,8 @@ import MyApplications from "../components/Dashboard/Candidate/MyApplications";
 import MyProfile from "../components/Dashboard/Candidate/MyProfile";
 import Settings from "../components/Dashboard/Candidate/Settings";
 
-// Import the protected route components from App.jsx
-const ProtectedRoute = ({ children }) => {
-  // This is a placeholder - in a real implementation, we would import from App.jsx
-  // For now, we'll just return the children
-  return children;
-};
-
-const RoleBasedRoute = ({ allowedRoles, children }) => {
-  // This is a placeholder - in a real implementation, we would import from App.jsx
-  // For now, we'll just return the children
-  return children;
-};
+// Import the protected route components from a shared module to avoid circular deps
+import { ProtectedRoute, RoleBasedRoute } from "../src/routes/Guards.jsx";
 
 const Page = ({ children }) => (
   <motion.div
@@ -60,6 +51,7 @@ const Routing = () => {
                 <Route path="/contact" element={<Page><ContactUs /></Page>} />
                 <Route path="/login/recruiter" element={<Page><LoginRecruiter /></Page>} />
                 <Route path="/login/candidate" element={<Page><LoginCandidate /></Page>} />
+                <Route path="/login/admin" element={<Page><LoginAdmin /></Page>} />
                 <Route path="/register/recruiter" element={<Page><RegisterRecruiter /></Page>} />
                 <Route path="/register/candidate" element={<Page><RegisterCandidate /></Page>} />
                 <Route path="/dashboard/admin" element={

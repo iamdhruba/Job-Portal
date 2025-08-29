@@ -94,6 +94,20 @@ export const authService = {
     }
   },
 
+  // Admin login
+  loginAdmin: async (credentials) => {
+    try {
+      const response = await apiClient.post('/users/login/admin', credentials);
+      const { token, refreshToken, data } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('refreshToken', refreshToken);
+      localStorage.setItem('user', JSON.stringify(data));
+      return response.data;
+    } catch (error) {
+      throw new Error(error.response?.data?.message || 'Login failed');
+    }
+  },
+
   // Recruiter login
   loginRecruiter: async (credentials) => {
     try {
